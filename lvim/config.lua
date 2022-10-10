@@ -51,13 +51,13 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
-    name = "+Trouble",
-    r = { "<cmd>Trouble lsp_references<cr>", "References" },
-    f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
-    d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
-    q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
-    l = { "<cmd>Trouble loclist<cr>", "LocationList" },
-    w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
+  name = "+Trouble",
+  r = { "<cmd>Trouble lsp_references<cr>", "References" },
+  f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
+  d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
+  q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
+  l = { "<cmd>Trouble loclist<cr>", "LocationList" },
+  w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 }
 
 
@@ -73,18 +73,18 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
-    "bash",
-    "c",
-    "cpp",
-    "javascript",
-    "json",
-    "lua",
-    "python",
-    "typescript",
-    "tsx",
-    "css",
-    "rust",
-    "yaml",
+  "bash",
+  "c",
+  "cpp",
+  "javascript",
+  "json",
+  "lua",
+  "python",
+  "typescript",
+  "tsx",
+  "css",
+  "rust",
+  "yaml",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -168,25 +168,33 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- Additional Plugins
 lvim.plugins = {
-    {
-        "folke/trouble.nvim",
-        requires = "kyazdani42/nvim-web-devicons",
-        config = function()
-            require("trouble").setup {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            }
-        end
-    },
-    {
-        "p00f/clangd_extensions.nvim",
-        config = function()
-            require("clangd_extensions").setup()
-        end
-    }
-
+  {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  },
+  {
+    "p00f/clangd_extensions.nvim",
+    config = function()
+      require("clangd_extensions").setup()
+    end
+  },
+--[[  {]]
+    --[[--]]
+    --[["quangnguyen30192/cmp-nvim-ultisnips",]]
+    --[[config = function()]]
+      --[[-- optional call to setup (see customization section)]]
+      --[[require("cmp_nvim_ultisnips").setup {}]]
+    --[[end,]]
+  --[[}]]
 }
+
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
@@ -205,31 +213,31 @@ lvim.plugins = {
 
 
 function PrintDiagnostics(opts, bufnr, line_nr, client_id)
-    bufnr = bufnr or 0
-    line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
-    opts = opts or { ['lnum'] = line_nr }
+  bufnr = bufnr or 0
+  line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
+  opts = opts or { ['lnum'] = line_nr }
 
-    local line_diagnostics = vim.diagnostic.get(bufnr, opts)
-    if vim.tbl_isempty(line_diagnostics) then return end
+  local line_diagnostics = vim.diagnostic.get(bufnr, opts)
+  if vim.tbl_isempty(line_diagnostics) then return end
 
-    local diagnostic_message = ""
-    for i, diagnostic in ipairs(line_diagnostics) do
-        diagnostic_message = diagnostic_message .. string.format("%d: %s", i, diagnostic.message or "")
-        print(diagnostic_message)
-        if i ~= #line_diagnostics then
-            diagnostic_message = diagnostic_message .. "\n"
-        end
+  local diagnostic_message = ""
+  for i, diagnostic in ipairs(line_diagnostics) do
+    diagnostic_message = diagnostic_message .. string.format("%d: %s", i, diagnostic.message or "")
+    print(diagnostic_message)
+    if i ~= #line_diagnostics then
+      diagnostic_message = diagnostic_message .. "\n"
     end
-    vim.api.nvim_echo({ { diagnostic_message, "Normal" } }, false, {})
+  end
+  vim.api.nvim_echo({ { diagnostic_message, "Normal" } }, false, {})
 end
 
 vim.diagnostic.config({
-    virtual_text = {
-        source = "always", -- Or "if_many"
-    },
-    float = {
-        source = "always", -- Or "if_many"
-    },
+  virtual_text = {
+    source = "always", -- Or "if_many"
+  },
+  float = {
+    source = "always", -- Or "if_many"
+  },
 })
 
 lvim.lsp.diagnostics.virtual_text = false
