@@ -35,7 +35,7 @@
 			"       // ====================  DATA MEMBERS  ======================================= ",
 			"}; // -----  end of class ${1}  ----- ",
 		],
-		"description": "Class"
+		"description": "Default C++ Class"
 	},
 	"cln": {
 		"prefix": "cln",

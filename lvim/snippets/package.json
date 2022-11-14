@@ -1,5 +1,5 @@
 {
-  "name": "nvim-snippets",
+  "name": "cpp-snippets",
   "author": "Diego Saraiva",
   "engines": {
     "vscode": "^1.11.0"
