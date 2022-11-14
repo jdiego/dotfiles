@@ -14,8 +14,8 @@ vim.opt.tabstop = 4 -- insert 2 spaces for a tab
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = true
-lvim.colorscheme = "onedarker"
+lvim.format_on_save.enabled = false
+lvim.colorscheme = "lunar"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -48,6 +48,10 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   },
 -- }
 
+-- Change theme settings
+-- lvim.builtin.theme.options.dim_inactive = true
+-- lvim.builtin.theme.options.style = "storm"
+
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
@@ -62,14 +66,13 @@ lvim.builtin.which_key.mappings["t"] = {
 
 
 -- TODO: User Config for predefined plugins
-
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -88,14 +91,12 @@ lvim.builtin.treesitter.ensure_installed = {
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
-lvim.builtin.treesitter.highlight.enabled = true
-
-
+lvim.builtin.treesitter.highlight.enable = true
 -- generic LSP settings
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
 -- lvim.lsp.installer.setup.ensure_installed = {
---     "sumeko_lua",
+--     "sumneko_lua",
 --     "jsonls",
 -- }
 -- -- change UI setting of `LspInstallInfo`
