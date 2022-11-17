@@ -102,8 +102,6 @@ keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
 keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
 
 
--- Clang Extension
-
 keymap("n", "<leader>lh", "<cmd>ClangdSwitchSourceHeader<cr>", opts)
 keymap("n", "<leader>lH", "<cmd>ClangdTypeHierarchy<cr>", opts)
 keymap("n", "<leader>lt", "<cmd>ClangdSymbolInfo<cr>", opts)

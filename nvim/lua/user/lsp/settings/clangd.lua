@@ -17,6 +17,8 @@ local clangd_flags = {
     "--offset-encoding=utf-16", --temporary fix for null-ls
 }
 
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
 local custom_on_attach = function(client, bufnr)
     require("lvim.lsp").common_on_attach(client, bufnr)  
     require("clangd_extensions.inlay_hints").setup_autocmd()
@@ -24,10 +26,11 @@ local custom_on_attach = function(client, bufnr)
 end
 
 
-local custom_on_init = function(client, bufnr)
-    require("lvim.lsp").common_on_init(client, bufnr)
-    require("clangd_extensions.config").setup {}
-    require("clangd_extensions.ast").init()
+local custom_on_init = function()
+    require("clangd_extensions").setup()
+    -- require("lvim.lsp").common_on_init(client, bufnr)
+    --require("clangd_extensions.config").setup {}
+    --require("clangd_extensions.ast").init()
     vim.cmd [[
         command ClangdToggleInlayHints lua require('clangd_extensions.inlay_hints').toggle_inlay_hints()
         command -range ClangdAST lua require('clangd_extensions.ast').display_ast(<line1>, <line2>)
