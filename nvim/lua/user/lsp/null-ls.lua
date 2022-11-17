@@ -23,6 +23,6 @@ null_ls.setup {
         formatting.clang_format,
         -- Diagnostics
         diagnostics.flake8,
-        diagnostics.clang_check,
+        --diagnostics.clang_check,
     },
 }
