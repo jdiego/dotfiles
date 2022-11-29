@@ -74,9 +74,9 @@ return packer.startup(function(use)
 
     -- LSP (Language Server Protocol)
 	use { "neovim/nvim-lspconfig", commit = "f11fdff7e8b5b415e5ef1837bdcdd37ea6764dda" } -- Quickstart configurations for the Nvim LSP client
-    use { "williamboman/mason.nvim", commit = "c2002d7a6b5a72ba02388548cfaf420b864fbc12"} -- simple to use language server installer
-    use { "williamboman/mason-lspconfig.nvim", commit = "0051870dd728f4988110a1b2d47f4a4510213e31" } -- bridges mason.nvim with the lspconfig plugin 
-	use { "jose-elias-alvarez/null-ls.nvim", commit = "07d4ed4c6b561914aafd787453a685598bec510f" } -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
+    use { "williamboman/mason.nvim", commit = "bfc5997e52fe9e20642704da050c415ea1d4775f"} -- simple to use language server installer
+    use { "williamboman/mason-lspconfig.nvim", commit = "0eb7cfefbd3a87308c1875c05c3f3abac22d367c" } -- bridges mason.nvim with the lspconfig plugin 
+	use { "jose-elias-alvarez/null-ls.nvim", commit = "c0c19f32b614b3921e17886c541c13a72748d450" } -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
     use { "RRethy/vim-illuminate", commit = "a2e8476af3f3e993bb0d6477438aad3096512e42" } -- for highlighting other uses of the word under the cursor using either LSP, Tree-sitter, 
     
     -- Telescope
