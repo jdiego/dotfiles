@@ -107,3 +107,7 @@ keymap("n", "<leader>lH", "<cmd>ClangdTypeHierarchy<cr>", opts)
 keymap("n", "<leader>lt", "<cmd>ClangdSymbolInfo<cr>", opts)
 keymap("n", "<leader>lm", "<cmd>ClangdMemoryUsage<cr>", opts)
 keymap("x", "<leader>lA", "<cmd>ClangdAST<cr>", opts)
+
+
+-- Lsp
+keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
