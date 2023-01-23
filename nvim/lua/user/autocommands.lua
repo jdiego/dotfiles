@@ -60,3 +60,5 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 		end
 	end,
 })
+
+vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
