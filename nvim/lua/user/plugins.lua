@@ -100,7 +100,15 @@ return packer.startup(function(use)
     use { "folke/tokyonight.nvim", commit = "66bfc2e8f754869c7b651f3f47a2ee56ae557764" }
     use { "lunarvim/darkplus.nvim", commit = "13ef9daad28d3cf6c5e793acfc16ddbf456e1c83" }
     
-    -- use { "folke/trouble.nvim",} -- diagnostics, references, telescope results, quickfix and location lists
+    use { "folke/trouble.nvim", -- diagnostics, references, telescope results, quickfix and location lists
+        config = function()
+            require("trouble").setup {
+                -- your configuration comes here    
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            }
+      end
+    } 
     use {"p00f/clangd_extensions.nvim"}
 
     -- Automatically set up your configuration after cloning packer.nvim
