@@ -5,10 +5,46 @@ end
 
 bufferline.setup {
     options = {
-        close_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
-        right_mouse_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
+        close_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
+        right_mouse_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
         offsets = { { filetype = "NvimTree", text = "", padding = 1 } },
-        separator_style = "thin", -- | "thick" | "thin" | { 'any', 'any' },
+        separator_style = "slant", -- | "thick" | "thin" | { 'any', 'any' },
+        max_name_length = 30,
+        max_prefix_length = 30, -- prefix used when a buffer is de-duplicated
+        tab_size = 21,
+        diagnostics = false, -- | "nvim_lsp" | "coc",
+        diagnostics_update_in_insert = false,
+        offsets = {
+            {
+                filetype = "undotree",
+                text = "Undotree",
+                highlight = "PanelHeading",
+                padding = 1,
+            },
+            {
+                filetype = "NvimTree",
+                text = "Explorer",
+                highlight = "PanelHeading",
+                padding = 1,
+            },
+            {
+                filetype = "DiffviewFiles",
+                text = "Diff View",
+                highlight = "PanelHeading",
+                padding = 1,
+            },
+            {
+                filetype = "flutterToolsOutline",
+                text = "Flutter Outline",
+                highlight = "PanelHeading",
+            },
+            {
+                filetype = "lazy",
+                text = "Lazy",
+                highlight = "PanelHeading",
+                padding = 1,
+            },
+        },
     },
 
     highlights = {
