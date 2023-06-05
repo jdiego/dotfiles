@@ -49,10 +49,10 @@ return packer.startup(function(use)
     use 'wbthomason/packer.nvim'                -- packer can manage itself
     -- Core plugins
     use { "nvim-lua/plenary.nvim", commit = "4b7e52044bbb84242158d977a50c4cbcd85070c7" } -- Useful lua functions used by lots of plugins
-    use { "windwp/nvim-autopairs", commit = "4fc96c8f3df89b6d23e5092d31c866c53a346347" } -- Autopairs, integrates with both cmp and treesitter
+    use { "windwp/nvim-autopairs", commit = "0e065d423f9cf649e1d92443c939a4b5073b6768" } -- Autopairs, integrates with both cmp and treesitter
     use { "numToStr/Comment.nvim", commit = "97a188a98b5a3a6f9b1b850799ac078faa17ab67" } -- Commenting plugin for neovim
-    use { "JoosepAlviste/nvim-ts-context-commentstring", commit = "32d9627123321db65a4f158b72b757bcaef1a3f4" } -- For setting the commentstring option based on the cursor location in the file
-    use { "kyazdani42/nvim-web-devicons", commit = "563f3635c2d8a7be7933b9e547f7c178ba0d4352" } -- A lua fork of vim-devicons
+    use { "JoosepAlviste/nvim-ts-context-commentstring", commit = "729d83ecb990dc2b30272833c213cc6d49ed5214" } -- For setting the commentstring option based on the cursor location in the file
+    use { "kyazdani42/nvim-web-devicons", commit = "0568104bf8d0c3ab16395433fcc5c1638efc25d4" } -- A lua fork of vim-devicons
     use { "kyazdani42/nvim-tree.lua", commit = "7282f7de8aedf861fe0162a559fc2b214383c51c" } -- A File Explorer
     use { "akinsho/bufferline.nvim", commit = "83bf4dc7bff642e145c8b4547aa596803a8b4dc4" }  -- A snazzy buffer line (with tabpage integration)
     use { "moll/vim-bbye", commit = "25ef93ac5a87526111f43e5110675032dbcacf56" }            -- To do delete buffers (close files) without closing your windows or messing up your layout
@@ -60,12 +60,12 @@ return packer.startup(function(use)
     use { "akinsho/toggleterm.nvim", commit = "2a787c426ef00cb3488c11b14f5dcf892bbd0bda" } -- A plugin to persist and toggle multiple terminals during an editing session
     use { "ahmedkhalf/project.nvim", commit = "628de7e433dd503e782831fe150bb750e56e55d6" } -- The superior project management solution for neovim.
     use { "lukas-reineke/indent-blankline.nvim", commit = "db7cbcb40cc00fc5d6074d7569fb37197705e7f6" } -- Indent guides for Neovim 
-    use { "goolord/alpha-nvim", commit = "0bb6fc0646bcd1cdb4639737a1cee8d6e08bcc31" }    -- A  greeter plugin for neovim
+    use { "goolord/alpha-nvim", commit = "dafa11a6218c2296df044e00f88d9187222ba6b0" }    -- A  greeter plugin for neovim
     use { "lewis6991/impatient.nvim", commit = "b842e16ecc1a700f62adb9802f8355b99b52a5a6" } -- Speed up loading Lua modules in Neovim to improve startup time.
     use {"folke/which-key.nvim"} --  A plugin to displays a popup with possible key bindings of the command you started typing
     
     -- cmp plugins
-    use { "hrsh7th/nvim-cmp", commit = "b0dff0ec4f2748626aae13f011d1a47071fe9abc" } -- The completion plugin
+    use { "hrsh7th/nvim-cmp", commit = "cfafe0a1ca8933f7b7968a287d39904156f2c57d" } -- The completion plugin
     use { "hrsh7th/cmp-buffer", commit = "3022dbc9166796b644a841a02de8dd1cc1d311fa" } -- buffer completions
     use { "hrsh7th/cmp-path", commit = "447c87cdd6e6d6a1d2488b1d43108bfa217f56e1" } -- path completions
     use { "saadparwaiz1/cmp_luasnip", commit = "a9de941bcbda508d0a45d28ae366bb3f08db2e36" } -- snippet completions
@@ -83,7 +83,7 @@ return packer.startup(function(use)
     use { "nvim-telescope/telescope.nvim", commit = "76ea9a898d3307244dce3573392dcf2cc38f340f" }  -- A highly extendable fuzzy finder over lists
     
     -- Treesitter
-    use {"nvim-treesitter/nvim-treesitter", commit = "8e763332b7bf7b3a426fd8707b7f5aa85823a5ac" } -- A Treesitter-based highlighting for Neovim
+    use {"nvim-treesitter/nvim-treesitter", commit = "226c1475a46a2ef6d840af9caa0117a439465500" } -- A Treesitter-based highlighting for Neovim
 
     -- Snippets
     use { "L3MON4D3/LuaSnip", commit = "8f8d493e7836f2697df878ef9c128337cbf2bb84" } --snippet engine
