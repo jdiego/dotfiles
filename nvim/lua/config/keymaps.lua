@@ -101,13 +101,5 @@ keymap("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>", opts)
 keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
 keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
 
-
-keymap("n", "<leader>lh", "<cmd>ClangdSwitchSourceHeader<cr>", opts)
-keymap("n", "<leader>lH", "<cmd>ClangdTypeHierarchy<cr>", opts)
-keymap("n", "<leader>lt", "<cmd>ClangdSymbolInfo<cr>", opts)
-keymap("n", "<leader>lm", "<cmd>ClangdMemoryUsage<cr>", opts)
-keymap("x", "<leader>lA", "<cmd>ClangdAST<cr>", opts)
-
-
 -- Lsp
 keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
