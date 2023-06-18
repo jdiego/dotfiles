@@ -30,7 +30,7 @@ function M.config()
     require("mason").setup(settings)
     require("mason-lspconfig").setup {
         -- A list of servers to automatically install if they're not already installed. 
-        ensure_installed = require("servers").servers,
+        ensure_installed = require("config.servers").servers,
         automatic_installation = true,
     }
 end
