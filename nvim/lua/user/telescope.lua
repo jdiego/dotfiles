@@ -1,45 +1,32 @@
-local status_ok, telescope = pcall(require, "telescope")
-if not status_ok then
-    return
-end
+local M = {
+  "nvim-telescope/telescope.nvim",
+  commit = "40c31fdde93bcd85aeb3447bb3e2a3208395a868",
+  event = "Bufenter",
+  cmd = { "Telescope" },
+  dependencies = {
+    {
+      "ahmedkhalf/project.nvim",
+    },
+  },
+}
 
 local actions = require "telescope.actions"
 
-telescope.setup { 
-    -- Default configuration for telescope goes here:
-    -- config_key = value,
-    defaults = {
-        prompt_prefix = " ",
-        selection_caret = " ",
-        path_display = { "smart" },
-        file_ignore_patterns = { ".git/", "node_modules" },
-
-        mappings = {
-            i = {
-                ["<Down>"] = actions.cycle_history_next,
-                ["<Up>"] = actions.cycle_history_prev,
-                ["<C-j>"] = actions.move_selection_next,
-                ["<C-k>"] = actions.move_selection_previous,
-            },
-            n = {
-                ["?"] = actions.which_key,
-            },
-        },
+M.opts = {
+  defaults = {
+    prompt_prefix = " ",
+    selection_caret = " ",
+    path_display = { "smart" },
+    file_ignore_patterns = { ".git/", "node_modules" },
+    mappings = {
+      i = {
+        ["<Down>"] = actions.move_selection_next,
+        ["<Up>"] = actions.move_selection_previous,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+      },
     },
-    pickers = {
-        -- Default configuration for builtin pickers goes here:
-        -- picker_name = {
-        --   picker_config_key = value,
-        --   ...
-        -- }
-        -- Now the picker_config_key will be applied every time you call this
-        -- builtin picker
-    },
-    extensions = {
-        -- Your extension configuration goes here:
-        -- extension_name = {
-            --   extension_config_key = value,
-        -- }
-        -- please take a look at the readme of the extension you want to configure
-    },
+  },
 }
+
+return M

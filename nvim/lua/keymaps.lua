@@ -1,7 +1,3 @@
------------------------------------------------------------
--- Key mapping configuration file
------------------------------------------------------------
-
 -- Shorten function name
 local keymap = vim.keymap.set
 -- Silent keymap option
@@ -10,9 +6,8 @@ local opts = { silent = true }
 --Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
------------------------------------------------------------
+
 -- Modes
------------------------------------------------------------
 --   normal_mode = "n",
 --   insert_mode = "i",
 --   visual_mode = "v",
@@ -20,9 +15,7 @@ vim.g.mapleader = " "
 --   term_mode = "t",
 --   command_mode = "c",
 
------------------------------------------------------------
--- Normal Mode
------------------------------------------------------------
+-- Normal --
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)
@@ -46,33 +39,18 @@ keymap("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
 keymap("n", "<S-q>", "<cmd>Bdelete!<CR>", opts)
 
 -- Better paste
-keymap("v", "p", '"_dP', opts)
+keymap("v", "p", "P", opts)
 
------------------------------------------------------------
--- Insert Mode
------------------------------------------------------------
+-- Insert --
 -- Press jk fast to enter
 keymap("i", "jk", "<ESC>", opts)
 
------------------------------------------------------------
--- Visual Mode
------------------------------------------------------------
-
+-- Visual --
 -- Stay in indent mode
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
--- Move text up and down
-
--- Move current line / block with Alt-j/k ala vscode.
-keymap("v", "<A-j>", ":m .+1<CR>==", opts)
--- Move current line / block with Alt-j/k ala vscode.
-keymap("v", "<A-k>", ":m .-2<CR>==", opts)
-
-
------------------------------------------------------------
 -- Plugins --
------------------------------------------------------------
 
 -- NvimTree
 keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
@@ -89,6 +67,7 @@ keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", opts)
 -- Comment
 keymap("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
 keymap("x", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", opts)
+
 -- DAP
 keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
 keymap("n", "<leader>dc", "<cmd>lua require'dap'.continue()<cr>", opts)
@@ -99,14 +78,6 @@ keymap("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>", opts)
 keymap("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>", opts)
 keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
 keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
-
-
-keymap("n", "<leader>lh", "<cmd>ClangdSwitchSourceHeader<cr>", opts)
-keymap("n", "<leader>lH", "<cmd>ClangdTypeHierarchy<cr>", opts)
-keymap("n", "<leader>lt", "<cmd>ClangdSymbolInfo<cr>", opts)
-keymap("n", "<leader>lm", "<cmd>ClangdMemoryUsage<cr>", opts)
-keymap("x", "<leader>lA", "<cmd>ClangdAST<cr>", opts)
-
 
 -- Lsp
 keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
