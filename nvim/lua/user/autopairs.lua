@@ -1,39 +1,43 @@
-----------------------------------------------------------------------------------------
--- Autopairs plugin configuration file
-----------------------------------------------------------------------------------------
--- Setup nvim-cmp.
-local status_ok, npairs = pcall(require, "nvim-autopairs")
-if not status_ok then
-    return
+-- A super powerful autopair plugin for Neovim that supports multiple characters.
+local M = {
+    "windwp/nvim-autopairs",
+    commit = "0e065d423f9cf649e1d92443c939a4b5073b6768",
+    event = "InsertEnter",
+    dependencies = {
+        {
+            "hrsh7th/nvim-cmp",
+            commit = "cfafe0a1ca8933f7b7968a287d39904156f2c57d",
+            event = { "InsertEnter", "CmdlineEnter", },
+        },
+    },
+}
+
+function M.config()
+    require("nvim-autopairs").setup {
+        check_ts = true, -- treesitter integration
+        disable_filetype = { "TelescopePrompt" },
+        ts_config = {
+            lua = { "string", "source" },
+            javascript = { "string", "template_string" },
+            java = false,
+        },
+        fast_wrap = {
+            map = "<M-e>",
+            chars = { "{", "[", "(", '"', "'" },
+            pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
+            offset = 0, -- Offset from pattern match
+            end_key = "$",
+            keys = "qwertyuiopzxcvbnmasdfghjkl",
+            check_comma = true,
+            highlight = "PmenuSel",
+            highlight_grey = "LineNr",
+        },
+    }
+
+    local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+    local cmp = require "cmp"
+
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done {})
 end
 
-npairs.setup({
-	check_ts = true, -- treesitter integration
-	disable_filetype = { "TelescopePrompt" },
-	ts_config = {
-		lua = { "string", "source" },
-		javascript = { "string", "template_string" },
-		java = false,
-	},
-
-	fast_wrap = {
-		map = "<M-e>",
-		chars = { "{", "[", "(", '"', "'" },
-		pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
-		offset = 0, -- Offset from pattern match
-		end_key = "$",
-		keys = "qwertyuiopzxcvbnmasdfghjkl",
-		check_comma = true,
-		highlight = "PmenuSel",
-		highlight_grey = "LineNr",
-	},
-})
-
--- You need to add mapping `CR` on nvim-cmp setup.
--- Check readme.md on nvim-cmp repo. 
-local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-local cmp_status_ok, cmp = pcall(require, "cmp")
-if not cmp_status_ok then
-	return
-end
-cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({}))
+return M

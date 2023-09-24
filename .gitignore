@@ -40,5 +40,5 @@ luac.out
 *.hex
 
 
-nvim/plugin/packer_compiled.lua
+nvim/lazy-lock.json
 lvim/plugin/packer_compiled.lua
