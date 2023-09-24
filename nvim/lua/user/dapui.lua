@@ -6,12 +6,10 @@ local M = {
     dependencies = {
         {
             "mfussenegger/nvim-dap",
-            commit = "6b12294a57001d994022df8acbe2ef7327d30587",
             event = "VeryLazy",
         },
     },
 }
-  
 
 function M.config()
     require("dapui").setup {
@@ -55,6 +53,7 @@ function M.config()
             },
         },
     }
+
     vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
 end
   
