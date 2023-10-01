@@ -4,36 +4,28 @@ local M = {
     dependencies = {
         {
             "hrsh7th/cmp-nvim-lsp",
-            commit = "0e6b2ed705ddcff9738ec4ea838141654f12eeef",
         },
         {
             "hrsh7th/cmp-buffer",
-            commit = "3022dbc9166796b644a841a02de8dd1cc1d311fa",
         },
         {
             "hrsh7th/cmp-path",
-            commit = "91ff86cd9c29299a64f968ebb45846c485725f23",
         },
         {
             "hrsh7th/cmp-cmdline",
-            commit = "23c51b2a3c00f6abc4e922dbd7c3b9aca6992063",
         },
         {
             "saadparwaiz1/cmp_luasnip",
-            commit = "18095520391186d634a0045dacaa346291096566",
         },
         {
             "L3MON4D3/LuaSnip",
-            commit = "9bff06b570df29434a88f9c6a9cea3b21ca17208",
             event = "InsertEnter",
             dependencies = {
                 "rafamadriz/friendly-snippets",
-                commit = "a6f7a1609addb4e57daa6bedc300f77f8d225ab7",
             },
         },
         {
             "hrsh7th/cmp-nvim-lua",
-            commit = "f3491638d123cfd2c8048aefaf66d246ff250ca6",
         },
     },
     event = { "InsertEnter", "CmdlineEnter", },
@@ -43,7 +35,9 @@ function M.config()
     local cmp = require "cmp"
     local luasnip = require "luasnip"
     require("luasnip/loaders/from_vscode").lazy_load()
-  
+    
+    
+
     local check_backspace = function()
         local col = vim.fn.col "." - 1
         return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
@@ -78,8 +72,7 @@ function M.config()
         Codeium = "󰚩",
         Copilot = "",
     }
-  
-    cmp.setup {
+    local opts = {
         snippet = {
             expand = function(args)
                 luasnip.lsp_expand(args.body) -- For `luasnip` users.
@@ -159,6 +152,23 @@ function M.config()
         },
         experimental = { ghost_text = true, },
     }
+    local available_clangd, clangd = pcall(require, "clangd_extensions")
+    if available_clangd then
+        sorting = {
+            comparators = {
+                cmp.config.compare.offset,
+                cmp.config.compare.exact,
+                cmp.config.compare.recently_used,
+                require("clangd_extensions.cmp_scores"),
+                cmp.config.compare.kind,
+                cmp.config.compare.sort_text,
+                cmp.config.compare.length,
+                cmp.config.compare.order,
+            },
+        }
+        opts = vim.tbl_deep_extend("force", sorting , opts)
+    end 
+    cmp.setup(opts)
 end
   
 return M

@@ -1,3 +1,5 @@
+-- Options are automatically loaded before lazy.nvim startup
+-- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 vim.opt.backup = false                          -- creates a backup file
 vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
@@ -41,3 +43,6 @@ vim.opt.whichwrap:append "<,>,[,],h,l"          -- keys allowed to move to the p
 vim.opt.iskeyword:append "-"                    -- treats words with `-` as single words
 vim.opt.formatoptions:remove { "c", "r", "o" }  -- This is a sequence of letters which describes how automatic formatting is to be done
 vim.opt.linebreak = true
+vim.opt.splitkeep = "screen"                     --  
+vim.opt.shortmess:append({ C = true })
+vim.g.markdown_recommended_style = 0            -- Fix markdown indentation settings

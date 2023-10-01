@@ -1,13 +1,23 @@
+-- (Neo)Vim plugin for automatically highlighting other uses of the word 
+-- under the cursor using either LSP, Tree-sitter, or regex matching. 
+
 local M = {
     "RRethy/vim-illuminate",
-    commit = "d6ca7f77eeaf61b3e6ce9f0e5a978d606df44298",
-    event = "VeryLazy",
+    event = { "BufReadPost", "BufNewFile" },    
+    opts = {
+        delay = 200,
+        large_file_cutoff = 2000,
+        large_file_overrides = {
+            providers = { "lsp" },
+        },
+    },
+    keys = {
+        { "]]", desc = "Next Reference" },
+        { "[[", desc = "Prev Reference" },
+    },
 }
   
 function M.config()
-    -- Vim plugin for automatically highlighting other uses of the word under the cursor 
-    -- using either LSP, Tree-sitter, or regex matching.
-    
     local illuminate = require "illuminate"
     vim.g.Illuminate_ftblacklist = { "alpha", "NvimTree" }
     vim.api.nvim_set_keymap(
@@ -52,6 +62,22 @@ function M.config()
         providers_regex_syntax_allowlist = {},
         under_cursor = true,
     }
+    local function map(key, dir, buffer)
+        vim.keymap.set("n", key, function()
+            require("illuminate")["goto_" .. dir .. "_reference"](false)
+        end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
+    end
+    map("]]", "next")
+    map("[[", "prev")
+
+    -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
+    vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+            local buffer = vim.api.nvim_get_current_buf()
+            map("]]", "next", buffer)
+            map("[[", "prev", buffer)
+        end,
+    })
 end
   
 return M

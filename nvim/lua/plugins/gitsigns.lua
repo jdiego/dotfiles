@@ -1,9 +1,8 @@
 local M = {
     "lewis6991/gitsigns.nvim",
-    commit = "ec4742a7eebf68bec663041d359b95637242b5c3",
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
 }
-  
+
 M.opts = {
     signs = {
         add = { hl = "GitSignsAdd", text = "▎", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
@@ -35,5 +34,5 @@ M.opts = {
         col = 1,
     },
 }
-  
+
 return M

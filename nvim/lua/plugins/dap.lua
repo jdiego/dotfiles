@@ -1,7 +1,5 @@
--- nvim-dap is a Debug Adapter Protocol client implementation for Neovim
 local M = {
     "mfussenegger/nvim-dap",
-    commit = "6b12294a57001d994022df8acbe2ef7327d30587",
     event = "VeryLazy",
 }
   
@@ -25,8 +23,7 @@ function M.config()
         dapui.close()
     end
   
-    dap.adapters.codelldb = 
-    {
+    dap.adapters.codelldb = {
         type = "server",
         port = "${port}",
         executable = {
@@ -37,32 +34,35 @@ function M.config()
             -- detached = false,
         },
     }
-    dap.configurations.c = {
+    dap.configurations.cpp = {
         {
             name = "Launch file",
             type = "codelldb",
             request = "launch",
             program = function()
                 local path
-                    vim.ui.input({ prompt = "Path to executable: ", default = vim.loop.cwd() .. "/build/" }, function(input)
-                        path = input
-                    end)
-                    vim.cmd [[redraw]]
-                    return path
+                vim.ui.input({ prompt = "Path to executable: ", default = vim.loop.cwd() .. "/build/" }, function(input)
+                    path = input
+                end)
+                vim.cmd [[redraw]]
+                return path
             end,
             cwd = "${workspaceFolder}",
             stopOnEntry = false,
         },
     }
+    dap.configurations.c = dap.configurations.cpp
+    dap.configurations.rust = dap.configurations.cpp
 end
   
 M = {
     "ravenxrz/DAPInstall.nvim",
     commit = "8798b4c36d33723e7bba6ed6e2c202f84bb300de",
-    lazy = true,
     config = function()
-        require("dap_install").setup {}
-        require("dap_install").config("python", {})
+        local dap_install =  require("dap_install")
+        dap_install.setup {}
+        dap_install.config("python", {})
+        dap_install.config("codelldb",{})
     end,
 }
   

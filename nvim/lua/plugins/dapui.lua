@@ -1,4 +1,3 @@
--- A UI for nvim-dap which provides a good out of the box configuration.
 local M = {
     "rcarriga/nvim-dap-ui",
     commit = "1cd4764221c91686dcf4d6b62d7a7b2d112e0b13",
@@ -6,13 +5,11 @@ local M = {
     dependencies = {
         {
             "mfussenegger/nvim-dap",
-            commit = "6b12294a57001d994022df8acbe2ef7327d30587",
             event = "VeryLazy",
         },
     },
 }
   
-
 function M.config()
     require("dapui").setup {
         expand_lines = true,

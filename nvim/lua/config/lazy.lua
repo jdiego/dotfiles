@@ -17,18 +17,24 @@ end
 vim.opt.rtp:prepend(install_path)
 -- Example using a list of specs with the default options
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.maplocalleader = "\\"
 
 -- load lazy
-require("lazy").setup("user", {
+require("lazy").setup({
+    spec = {
+        { import = "plugins" },
+    },
     install = { 
         -- install missing plugins on startup. This doesn't increase startup time.
         missing = true,
         -- try to load one of these colorschemes when starting an installation during startup
-        colorscheme = { require("user.colorscheme").name } 
+        colorscheme = { require("plugins.colorscheme").name } 
     },
     defaults = { 
         -- should plugins be lazy-loaded ?
-        lazy = true
+        lazy = true,
+        autocmds = true, -- config.autocmds
+        keymaps = true, -- config.keymaps
     },
     ui = { 
         wrap = "true" -- wrap the lines in the ui

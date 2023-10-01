@@ -1,4 +1,5 @@
 -- A snazzy nail_care buffer line (with tabpage integration) for Neovim built using lua.
+
 local M = {
     "akinsho/bufferline.nvim",
     commit = "c7492a76ce8218e3335f027af44930576b561013",
@@ -6,14 +7,13 @@ local M = {
     dependencies = {
         {
             "famiu/bufdelete.nvim",
-            commit = "8933abc09df6c381d47dc271b1ee5d266541448e",
         },
     },
 }
-
 function M.config()
     require("bufferline").setup {
         options = {
+            --diagnostics = "nvim_lsp",            
             close_command = "Bdelete! %d",       -- can be a string | function, see "Mouse actions"
             right_mouse_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
             offsets = { { filetype = "NvimTree", text = "", padding = 1 } },
@@ -95,5 +95,5 @@ function M.config()
         },
     }
 end
-  
+
 return M
