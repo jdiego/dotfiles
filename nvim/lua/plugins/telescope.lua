@@ -11,6 +11,7 @@ local M = {
 
 function M.config()
     local actions = require ("telescope.actions")
+    local helpers = require("helpers")
     local open_with_trouble = function(...)
         return require("trouble.providers.telescope").open_with_trouble(...)
     end
@@ -20,12 +21,12 @@ function M.config()
     local find_files_no_ignore = function()
             local action_state = require("telescope.actions.state")
             local line = action_state.get_current_line()
-            --Util.telescope("find_files", { no_ignore = true, default_text = line })()
+            helpers.telescope("find_files", { no_ignore = true, default_text = line })()
     end
     local find_files_with_hidden = function()
     local action_state = require("telescope.actions.state")
         local line = action_state.get_current_line()
-        --Util.telescope("find_files", { hidden = true, default_text = line })()
+        helpers.telescope("find_files", { hidden = true, default_text = line })()
     end
     local opts = { 
         defaults = {

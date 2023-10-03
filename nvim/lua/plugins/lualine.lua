@@ -5,6 +5,8 @@ local M = {
 }
 
 function M.config()
+    local icons = require("config").icons
+    local helpers = require("helpers")
     local status_ok, lualine = pcall(require, "lualine")
     if not status_ok then
         return
@@ -18,7 +20,12 @@ function M.config()
         "diagnostics",
         sources = { "nvim_diagnostic" },
         sections = { "error", "warn" },
-        symbols = { error = " ", warn = " " },
+        symbols = { 
+            error = icons.diagnostics.Error,
+            warn = icons.diagnostics.Warn,
+            info = icons.diagnostics.Info,
+            hint = icons.diagnostics.Hint,
+        },
         colored = false,
         always_visible = true,
     }
@@ -56,11 +63,39 @@ function M.config()
         sections = {
             lualine_a = { "mode" },
             lualine_b = { "branch" },
-            lualine_c = { diagnostics },
-            lualine_x = { diff, spaces, "encoding", filetype },
+            lualine_c = { 
+                diagnostics,
+                -- stylua: ignore
+                {
+                    function() return require("nvim-navic").get_location() end,
+                    cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
+                },
+            },
+            lualine_x = { 
+                diff, 
+                {
+                    function() return require("noice").api.status.command.get() end,
+                    cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+                    color = helpers.fg("Statement"),
+                    
+                },
+                {
+                    function() return require("noice").api.status.mode.get() end,
+                    cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+                    color = helpers.fg("Constant"),
+                },
+                 {
+                    function() return "  " .. require("dap").status() end,
+                    cond = function () return package.loaded["dap"] and require("dap").status() ~= "" end,
+                    color = helpers.fg("Debug"),
+                },
+                { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = helpers.fg("Special") },
+
+            },
             lualine_y = { location },
             lualine_z = { "progress" },
         },
+        extensions = { "neo-tree", "lazy" },
     }
 end
   

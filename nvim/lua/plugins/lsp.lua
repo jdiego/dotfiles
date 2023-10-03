@@ -1,7 +1,7 @@
 local M = {
     "neovim/nvim-lspconfig",
     lazy = false,
-    event = { "BufReadPre" },
+    event = { "BufReadPre",  "BufNewFile" },
     dependencies = {
         {
             "hrsh7th/cmp-nvim-lsp",
@@ -13,6 +13,7 @@ function M.config()
     local cmp_nvim_lsp = require "cmp_nvim_lsp"
   
     local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
     capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
   
     local function lsp_keymaps(bufnr)
@@ -72,12 +73,19 @@ function M.config()
   
     local config = {
         -- disable virtual text
-        virtual_text = false,
+        virtual_text = {
+            spacing = 4,
+            source = "if_many",
+            prefix = "●",
+            -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+            -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+            -- prefix = "icons",
+        },  
         -- show signs
         signs = {
             active = signs,
         },
-        update_in_insert = true,
+        update_in_insert = false,
         underline = true,
         severity_sort = true,
         float = {
