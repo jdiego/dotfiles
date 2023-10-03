@@ -28,6 +28,7 @@ function M.config()
         local line = action_state.get_current_line()
         helpers.telescope("find_files", { hidden = true, default_text = line })()
     end
+
     local opts = { 
         defaults = {
             prompt_prefix = " ",
@@ -108,6 +109,30 @@ function M.config()
             },
         },
     }
+
+    local require_ok, flash = pcall(require, "flash")
+    if require_ok then
+        local function flash(prompt_bufnr)
+            flash.jump({
+                    pattern = "^",
+                    label = { after = { 0, 0 } },
+                    search = {
+                        mode = "search",
+                        exclude = {
+                            function(win)
+                                return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "TelescopeResults"
+                            end,
+                        },
+                    },
+                    action = function(match)
+                        local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+                        picker:set_selection(match.pos[1] - 1)
+                    end,
+            })
+        end
+        local flash_mapping = { mappings = { n = { s = flash }, i = { ["<c-s>"] = flash } } }
+        opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, flash_mapping)
+    end
     require("telescope").setup(opts)
 end
 

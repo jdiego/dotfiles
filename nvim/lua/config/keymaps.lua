@@ -9,6 +9,22 @@ local keymap = vim.keymap.set
 -- Silent keymap option
 local opts = { silent = true }
 
+--Remap space as leader key
+keymap("", "<Space>", "<Nop>", opts)
+vim.g.mapleader = " "
+-----------------------------------------------------------
+-- Modes
+-----------------------------------------------------------
+--   normal_mode = "n",
+--   insert_mode = "i",
+--   visual_mode = "v",
+--   visual_block_mode = "x",
+--   term_mode = "t",
+--   command_mode = "c",
+
+
+local helpers = require("helpers")
+
 -- better up/down
 keymap({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 keymap({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -85,6 +101,45 @@ keymap("n", "]q", vim.cmd.cnext, { desc = "Next quickfix" })
 
 -- formatting
 --keymap({ "n", "v" }, "<leader>cf", function() require("plugins.lsp.format").format({ force = true }) end, { desc = "Format" })
+
+-- quit
+keymap("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
+
+-- highlights under cursor
+keymap("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
+
+-- floating terminal
+local lazyterm = function() helpers.float_term(nil, { cwd = helpers.get_root() }) end
+
+keymap("n", "<leader>ft", lazyterm, { desc = "Terminal (root dir)" })
+keymap("n", "<leader>fT", function() helpers.float_term() end, { desc = "Terminal (cwd)" })
+keymap("n", "<c-/>", lazyterm, { desc = "Terminal (root dir)" })
+keymap("n", "<c-_>", lazyterm, { desc = "which_key_ignore" })
+
+-- Terminal Mappings
+keymap("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
+keymap("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to left window" })
+keymap("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to lower window" })
+keymap("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to upper window" })
+keymap("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
+keymap("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+keymap("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
+
+-- windows
+keymap("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
+keymap("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
+keymap("n", "<leader>w-", "<C-W>s", { desc = "Split window below", remap = true })
+keymap("n", "<leader>w|", "<C-W>v", { desc = "Split window right", remap = true })
+keymap("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
+keymap("n", "<leader>|", "<C-W>v", { desc = "Split window right", remap = true })
+
+-- tabs
+keymap("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
+keymap("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
+keymap("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
+keymap("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+keymap("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
+keymap("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- Telescope
 keymap("n", "<leader>ff", ":Telescope find_files<CR>", opts)
