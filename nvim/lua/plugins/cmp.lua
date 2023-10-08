@@ -6,9 +6,6 @@ local M = {
         or nil,
     dependencies = {
         "rafamadriz/friendly-snippets",
-        config = function()
-            require("luasnip.loaders.from_vscode").lazy_load()
-        end,
     },
     opts = {
         history = true,
@@ -64,7 +61,9 @@ M = {
 function M.config()
     local cmp = require "cmp"
     local luasnip = require "luasnip"
-    require("luasnip/loaders/from_vscode").lazy_load()
+    local vscode_loader = require("luasnip/loaders/from_vscode")
+    vscode_loader.lazy_load({ paths = { vim.g.luasnippets_path } })
+    vscode_loader.lazy_load()
 
     local check_backspace = function()
         local col = vim.fn.col "." - 1

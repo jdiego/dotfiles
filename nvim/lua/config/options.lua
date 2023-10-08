@@ -1,5 +1,9 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
+local luasnippets_path = vim.fn.stdpath("config") .. "/snippets"
+
 vim.opt.backup = false                          -- creates a backup file
 vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
@@ -46,3 +50,4 @@ vim.opt.linebreak = true
 vim.opt.splitkeep = "screen"                     --  
 vim.opt.shortmess:append({ C = true })
 vim.g.markdown_recommended_style = 0            -- Fix markdown indentation settings
+vim.g.luasnippets_path =  luasnippets_path      -- Lua Snippets default path
