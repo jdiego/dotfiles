@@ -9,7 +9,6 @@ local M = {
         },
     },
 }
-  
 function M.config()
     require("dapui").setup {
         expand_lines = true,
@@ -52,6 +51,7 @@ function M.config()
             },
         },
     }
+
     vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
 end
   

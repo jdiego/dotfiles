@@ -11,7 +11,6 @@ local M = {
         },
     },
 }
-  
 M.name = "tokyonight-night"  
 function M.config()
     local status_ok, _ = pcall(vim.cmd.colorscheme, M.name)

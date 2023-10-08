@@ -59,7 +59,6 @@ end
   
 M = {
     "ravenxrz/DAPInstall.nvim",
-    commit = "8798b4c36d33723e7bba6ed6e2c202f84bb300de",
     config = function()
         local dap_install =  require("dap_install")
         dap_install.setup {}
