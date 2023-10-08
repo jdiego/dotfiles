@@ -1,3 +1,5 @@
+-- nvim-dap is a Debug Adapter Protocol client implementation for Neovim
+
 local M = {
     "mfussenegger/nvim-dap",
     event = "VeryLazy",
