@@ -1,16 +1,22 @@
 -- A blazing fast and easy to configure Neovim statusline written in Lua.
 local M = {
     "nvim-lualine/lualine.nvim",
-    event = { "VimEnter", "InsertEnter", "BufReadPre", "BufAdd", "BufNew", "BufReadPost" },
+    --event = { "VimEnter", "InsertEnter", "BufReadPre", "BufAdd", "BufNew", "BufReadPost" },
+    event = "VeryLazy",
+    init = function()
+        vim.g.lualine_laststatus = vim.o.laststatus
+        vim.o.laststatus = 0
+    end,
 }
 
 function M.config()
-    local icons = require("config").icons
+    local icons = require("config.icons")
     local helpers = require("helpers")
     local status_ok, lualine = pcall(require, "lualine")
     if not status_ok then
         return
     end
+    local navic = require("nvim-navic")
   
     local hide_in_width = function()
         return vim.fn.winwidth(0) > 80
@@ -36,17 +42,10 @@ function M.config()
         symbols = { added = " ", modified = " ", removed = " " }, -- changes diff symbols
         cond = hide_in_width,
     }
-  
-    local filetype = {
-        "filetype",
-        icons_enabled = false,
-    }
-  
-    local location = {
-        "location",
-        padding = 0,
-    }
-  
+    local filetype = {"filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } }
+    local location = { "location", padding = 0,  right = 1 }
+    local filename = { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } }
+    local progress = { "progress", separator = " ", padding = { left = 1, right = 0 } }
     local spaces = function()
         return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
     end
@@ -65,6 +64,8 @@ function M.config()
             lualine_b = { "branch" },
             lualine_c = { 
                 diagnostics,
+                filetype,
+                filename,
                 -- stylua: ignore
                 {
                     function() return require("nvim-navic").get_location() end,
@@ -72,7 +73,6 @@ function M.config()
                 },
             },
             lualine_x = { 
-                diff, 
                 {
                     function() return require("noice").api.status.command.get() end,
                     cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
@@ -90,11 +90,22 @@ function M.config()
                     color = helpers.fg("Debug"),
                 },
                 { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = helpers.fg("Special") },
-
+                diff, 
             },
-            lualine_y = { location },
-            lualine_z = { "progress" },
+            lualine_y = { progress, location },
+            lualine_z = {
+                function()
+                  return " " .. os.date("%R")
+                end,
+            },
         },
+        -- winbar = {
+        --     lualine_c = {
+        --         {   function() return navic.get_location() end, 
+        --             cond = function() return navic.is_available() end
+        --         },
+        --     }
+        -- },
         extensions = { "neo-tree", "lazy" },
     }
 end

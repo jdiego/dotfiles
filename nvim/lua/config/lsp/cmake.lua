@@ -1,9 +1,7 @@
-local M = {
-    opts = {
-        servers = {
-            neocmake = {},
-        },
-    }
+local opts = {
+    servers = {
+        neocmake = {},
+    },
 }
 
-return M
+return opts

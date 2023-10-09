@@ -1,32 +1,32 @@
-local M = {
-    "L3MON4D3/LuaSnip",
-    event = "InsertEnter",
-    build = (not jit.os:find("Windows"))
-        and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
-        or nil,
-    dependencies = {
-        "rafamadriz/friendly-snippets",
-    },
-    opts = {
-        history = true,
-        delete_check_events = "TextChanged",
-    },
-    -- stylua: ignore
-    keys = {
-        {
-            "<tab>",
-            function()
-                return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-            end,
-            expr = true, silent = true, mode = "i",
-        },
-        { "<tab>", function() require("luasnip").jump(1) end, mode = "s" },
-        { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
-    },
-}
+-- local M = {
+--     "L3MON4D3/LuaSnip",
+--     event = "InsertEnter",
+--     build = (not jit.os:find("Windows"))
+--         and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
+--         or nil,
+--     dependencies = {
+--         "rafamadriz/friendly-snippets",
+--     },
+--     opts = {
+--         history = true,
+--         delete_check_events = "TextChanged",
+--     },
+--     -- stylua: ignore
+--     keys = {
+--         {
+--             "<tab>",
+--             function()
+--                 return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
+--             end,
+--             expr = true, silent = true, mode = "i",
+--         },
+--         { "<tab>", function() require("luasnip").jump(1) end, mode = "s" },
+--         { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
+--     },
+-- }
 
 -- auto completion
-M = {
+local M = {
     "hrsh7th/nvim-cmp",
     commit = "cfafe0a1ca8933f7b7968a287d39904156f2c57d",
     dependencies = {
@@ -43,27 +43,33 @@ M = {
             "hrsh7th/cmp-cmdline",
         },
         {
-            "saadparwaiz1/cmp_luasnip",
-        },
-        {
-            "L3MON4D3/LuaSnip",
+
+        "hrsh7th/vim-vsnip",
             dependencies = {
-                "rafamadriz/friendly-snippets",
+                "hrsh7th/cmp-vsnip",
+                "hrsh7th/vim-vsnip-integ",
             },
         },
         {
             "hrsh7th/cmp-nvim-lua",
-        },
+        }, 
+
     },
     event = { "InsertEnter", "CmdlineEnter", },
 }
   
 function M.config()
     local cmp = require "cmp"
-    local luasnip = require "luasnip"
-    local vscode_loader = require("luasnip/loaders/from_vscode")
-    vscode_loader.lazy_load({ paths = { vim.g.luasnippets_path } })
-    vscode_loader.lazy_load()
+    vim.g.vsnip_snippet_dir = vim.g.luasnippets_path
+    local has_words_before = function()
+        unpack = unpack or table.unpack
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+    end
+
+    local feedkey = function(key, mode)
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+    end
 
     local check_backspace = function()
         local col = vim.fn.col "." - 1
@@ -102,7 +108,7 @@ function M.config()
     local opts = {
         snippet = {
             expand = function(args)
-                luasnip.lsp_expand(args.body) -- For `luasnip` users.
+                vim.fn["vsnip#anonymous"](args.body)
             end,
         },
         mapping = cmp.mapping.preset.insert {
@@ -118,34 +124,24 @@ function M.config()
             -- Accept currently selected item. If none selected, `select` first item.
             -- Set `select` to `false` to only confirm explicitly selected items.
             ["<CR>"] = cmp.mapping.confirm { select = true },
-            ["<Tab>"] = cmp.mapping(
-                function(fallback)
+            ["<Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.select_next_item()
-                    elseif luasnip.expandable() then
-                        luasnip.expand()
-                    elseif luasnip.expand_or_jumpable() then
-                        luasnip.expand_or_jump()
-                    elseif check_backspace() then
-                        fallback()
+                    elseif vim.fn["vsnip#available"](1) == 1 then
+                        feedkey("<Plug>(vsnip-expand-or-jump)", "")
+                    elseif has_words_before() then
+                        cmp.complete()
                     else
-                        fallback()
+                        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
                     end
-                end, 
-                {"i", "s",}
-            ),
-            ["<S-Tab>"] = cmp.mapping(
-                function(fallback)
-                    if cmp.visible() then
-                        cmp.select_prev_item()
-                    elseif luasnip.jumpable(-1) then
-                        luasnip.jump(-1)
-                    else
-                        fallback()
-                    end
-                end, 
-                {"i","s",}
-            ),
+                end, { "i", "s" }),
+            ["<S-Tab>"] = cmp.mapping(function()
+                if cmp.visible() then
+                    cmp.select_prev_item()
+                elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+                    feedkey("<Plug>(vsnip-jump-prev)", "")
+                end
+            end, { "i", "s" }),
         },
         formatting = {
             fields = { "kind", "abbr", "menu" },
@@ -165,7 +161,7 @@ function M.config()
         sources = {
             { name = "nvim_lsp" },
             { name = "nvim_lua" },
-            { name = "luasnip" },
+            { name = 'vsnip' }, -- For vsnip users.
             { name = "buffer" },
             { name = "path" },
         },

@@ -10,10 +10,12 @@ local M = {
 }
 
 function M.config()
-    local cmp_nvim_lsp = require "cmp_nvim_lsp"
-  
+    local cmp_nvim_lsp = require "cmp_nvim_lsp" 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
+    capabilities.textDocument.completion.completionItem.resolveSupport = {
+        properties = {"documentation", "detail", "additionalTextEdits",},
+    }
     capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
   
     local function lsp_keymaps(bufnr)
@@ -39,25 +41,28 @@ function M.config()
     local on_attach = function(client, bufnr)
         lsp_keymaps(bufnr)
         require("illuminate").on_attach(client)
+        if client.server_capabilities.documentSymbolProvider then
+            require("nvim-navic").attach(client, bufnr)
+        end
     end
   
     for _, server in pairs(require("config.lsp.servers").servers) do
-        Opts = {
+        local opts = {
             on_attach = on_attach,
             capabilities = capabilities,
         }
         server = vim.split(server, "@")[1]
         local require_ok, conf = pcall(require, "config.lsp." .. server)
         if require_ok then
-            Opts = vim.tbl_deep_extend("force", conf['opts'], Opts)
+            opts = vim.tbl_deep_extend("force", conf, opts)
             if conf.on_attach then
-                Opts.on_attach = function(client, bufnr)
+                opts.on_attach = function(client, bufnr)
                     on_attach(client, bufnr)
-                    conf.on_attach()
+                    conf.on_attach(client,bufnr)
                 end
             end
         end
-        lspconfig[server].setup(Opts)
+        lspconfig[server].setup(opts)
     end
   
     local signs = {
@@ -101,6 +106,9 @@ function M.config()
     vim.diagnostic.config(config)
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = "rounded",})
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = "rounded",})
+    -- Enable rounded borders in :LspInfo window.
+    require("lspconfig.ui.windows").default_options.border = "rounded"
+    
 end
   
 return M
