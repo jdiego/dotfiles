@@ -3,8 +3,14 @@ local M = {
     lazy = false,
     event = { "BufReadPre",  "BufNewFile" },
     dependencies = {
+        { "hrsh7th/cmp-nvim-lsp"},
         {
-            "hrsh7th/cmp-nvim-lsp",
+            "SmiteshP/nvim-navbuddy",
+            dependencies = {
+                "SmiteshP/nvim-navic",
+                "MunifTanjim/nui.nvim"
+            },
+            opts = { lsp = { auto_attach = true } }
         },
     }, 
 }
@@ -44,6 +50,7 @@ function M.config()
         if client.server_capabilities.documentSymbolProvider then
             require("nvim-navic").attach(client, bufnr)
         end
+        
     end
   
     for _, server in pairs(require("config.lsp.servers").servers) do

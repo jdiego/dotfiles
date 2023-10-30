@@ -33,6 +33,11 @@ local custom_on_attach = function(client, bufnr)
     local clangd_extensions = require("clangd_extensions.inlay_hints")
     clangd_extensions.setup_autocmd()
     clangd_extensions.set_inlay_hints()
+
+    local require_ok, navbuddy = pcall(require, "nvim-navbuddy")
+    if require_ok then 
+        navbuddy.attach(client, bufnr)
+    end
 end
 local custom_on_init = function(client, bufnr)
     require("clangd_extensions.config").setup {}

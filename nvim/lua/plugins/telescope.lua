@@ -6,12 +6,14 @@ local M = {
     dependencies = { 
         { "ahmedkhalf/project.nvim"},
         {"nvim-lua/plenary.nvim", lazy = true},
+        { "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true }
     }
 }
 
 function M.config()
     local actions = require ("telescope.actions")
     local helpers = require("helpers")
+    
     local open_with_trouble = function(...)
         return require("trouble.providers.telescope").open_with_trouble(...)
     end
@@ -34,7 +36,20 @@ function M.config()
             prompt_prefix = " ",
             selection_caret = " ",
             path_display = { "smart" },
+            initial_mode = "insert",
+            selection_strategy = "reset",
             file_ignore_patterns = { ".git/", "node_modules" },
+            vimgrep_arguments = {
+                "rg",
+                "--color=never",
+                "--no-heading",
+                "--with-filename",
+                "--line-number",
+                "--column",
+                "--smart-case",
+                "--hidden",
+                "--glob=!.git/",
+            },        
             mappings = {
                 i = {
                     ["<C-n>"] = actions.cycle_history_next,
@@ -105,7 +120,13 @@ function M.config()
                 --   extension_config_key = value,
                 -- }
                 -- please take a look at the readme of the extension you want to configure
-                "noice"
+                "noice",
+                fzf = {
+                    fuzzy = true, -- false will only do exact matching
+                    override_generic_sorter = true, -- override the generic sorter
+                    override_file_sorter = true, -- override the file sorter
+                    case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+                },
             },
         },
     }
