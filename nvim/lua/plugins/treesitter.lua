@@ -6,11 +6,7 @@ local M = {
     version = false, -- last release is way too old and doesn't work on Windows
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
-    dependencies = {
-        {
-            "JoosepAlviste/nvim-ts-context-commentstring",
-            event = "VeryLazy",
-        },
+    dependencies = { 
         {
             "nvim-tree/nvim-web-devicons",
             event = "VeryLazy",
@@ -45,10 +41,6 @@ function M.config()
         },
         indent = { enable = true, disable = { "python", "css" } },
     
-        context_commentstring = {
-            enable = true,
-            enable_autocmd = false,
-        },
     }
 end
 
