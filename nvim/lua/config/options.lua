@@ -51,3 +51,4 @@ vim.opt.splitkeep = "screen"                     --
 vim.opt.shortmess:append({ C = true })
 vim.g.markdown_recommended_style = 0            -- Fix markdown indentation settings
 vim.g.luasnippets_path =  luasnippets_path      -- Lua Snippets default path
+vim.opt["guicursor"] = ""
